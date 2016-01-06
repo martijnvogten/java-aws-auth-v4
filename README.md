@@ -1,8 +1,9 @@
 # java-aws-auth-v4
-AWS Authentication Version 4 implemented in Java
+AWS Authentication Version 4 implemented in Java.
 
-This is a dependency free implementation of the request signing. 
-I needed it because I couldn't use the AWS SDK.
+This is a dependency free implementation of the request signing only.
+Where possible, use the [official AWS SDK](https://aws.amazon.com/sdk-for-java/) instead.
+
 
 # License
 

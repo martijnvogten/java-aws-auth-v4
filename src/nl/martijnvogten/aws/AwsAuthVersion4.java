@@ -26,6 +26,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AwsAuthVersion4 {
 	
+	public static final String UNSIGNED_PAYLOAD = "UNSIGNED-PAYLOAD";
+	
 	private static final String NEWLINE = "\n";
 	private static final String ALGORITHM = "AWS4-HMAC-SHA256";
 	private static final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
@@ -62,9 +64,9 @@ public class AwsAuthVersion4 {
 	}
 	
 	public static class SignedAPIRequest {
-		String method;
-		List<NameValue> headers;
-		String payload;
+		public String method;
+		public List<NameValue> headers;
+		public String payload;
 	}
 
 	public static SignedAPIRequest signRequest(APIRequest req, String[] signed_headers, String access_key, String secret_key, Date now) throws Exception {
@@ -139,7 +141,12 @@ public class AwsAuthVersion4 {
 				canonical_headers.append(NEWLINE);
 			}
 			
-			String payload_hash = hash(req.getPayload());
+			String payload_hash;
+			if (UNSIGNED_PAYLOAD.equals(req.getPayload())) {
+				payload_hash = UNSIGNED_PAYLOAD;
+			} else {
+				payload_hash = hash(req.getPayload());
+			}
 		
 			String canonical_request = req.getMethod() + NEWLINE
 				+ canonical_uri + NEWLINE
@@ -265,13 +272,13 @@ public class AwsAuthVersion4 {
 		return dateFmt.format(time);
 	}
 	
-	private static String getDateTimeStamp(Date time) {
+	public static String getDateTimeStamp(Date time) {
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'", Locale.ENGLISH);
 		fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return fmt.format(time);
 	}
 	
-	private static String hash(String payload) throws NoSuchAlgorithmException {
+	public static String hash(String payload) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.update(payload.getBytes(UTF_8));
 		return String.format("%064x", new java.math.BigInteger(1, md.digest()));

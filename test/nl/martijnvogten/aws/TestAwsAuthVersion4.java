@@ -15,7 +15,6 @@ import java.util.TimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.martijnvogten.aws.AwsAuthVersion4;
 import nl.martijnvogten.aws.AwsAuthVersion4.APIRequest;
 import nl.martijnvogten.aws.AwsAuthVersion4.NameValue;
 import nl.martijnvogten.aws.AwsAuthVersion4.SignedAPIRequest;

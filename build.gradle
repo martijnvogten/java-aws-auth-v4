@@ -15,7 +15,7 @@ artifacts {
 }
 
 dependencies {
-  testCompile 'junit:junit:4.11'
+  testImplementation 'junit:junit:4.11'
 }
 
 sourceSets {
